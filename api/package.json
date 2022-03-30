@@ -17,6 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.9",
     "nodemon": "^2.0.15",
+    "package-lock": "^1.0.5",
     "stripe": "^8.214.0"
   }
 }
