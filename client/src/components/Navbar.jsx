@@ -93,7 +93,7 @@ const Navbar = () => {
     const [open,setOpen] = useState(false);
     const text =
     <Dropdown>
-    <Link to="/login" style={{ textDecoration: 'none', color:'black' }}><MenuItem11>SIGN IN</MenuItem11></Link>
+    <Link to="/login" style={{ textDecoration: 'none', color:'black' }}><DropdownItem>SIGN IN</DropdownItem></Link>
     <DropdownItem>REGISTER</DropdownItem>
     <DropdownItem>ORDER STATUS</DropdownItem>
     <DropdownItem>PAYMENTS</DropdownItem>
