@@ -21,12 +21,12 @@ cursor:pointer;
 const Container = styled.div`
 flex:1;
 margin:5px;
-min-width:280px;
-height:350px;
+min-width:258px;
+height:380px;
 display:flex;
 align-items:center;
 justify-content:center;
-background-color:#f5fbfd;
+background-color:white;
 position:relative;
 
 &:hover ${Info}{
@@ -42,7 +42,7 @@ background-color:white;
 position:absolute;
 `;
 const Image = styled.img`
-height:75%;
+height:100%;
 z-index:2;
 `;
 
@@ -65,7 +65,7 @@ transition:all 0.5s ease;
 const Product = ({ item }) => {
     return (
         <Container>
-            <Circle />
+            
             <Image src={item.img} />
             <Info>
                 <Icon>

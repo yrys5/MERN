@@ -187,8 +187,8 @@ stripeToken && makeRequest()
 //end of section to correct
   return (
     <Container>
-      <Navbar />
       <Announcement />
+      <Navbar />
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>

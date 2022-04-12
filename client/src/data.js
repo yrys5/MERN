@@ -1,10 +1,10 @@
 export const sliderItems = [
     {
       id: 1,
-      img: "https://s7d5.scene7.com/is/image/UrbanOutfitters/42635649_021_b?$xlarge$&fit=constrain&qlt=80&wid=640",
+      img: "https://i.ibb.co/cXFnLLV/3.png",
       title: "SUMMER SALE",
       desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-      bg: "f2f0f1",
+      bg: "fbf0f4",
     },
     {
       id: 2,
@@ -15,10 +15,10 @@ export const sliderItems = [
     },
     {
       id: 3,
-      img: "https://i.ibb.co/cXFnLLV/3.png",
+      img: "https://s7d5.scene7.com/is/image/UrbanOutfitters/42635649_021_b?$xlarge$&fit=constrain&qlt=80&wid=640",
       title: "LOUNGEWEAR LOVE",
       desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
-      bg: "fbf0f4",
+      bg: "f2f0f1",
     },
   ];
 

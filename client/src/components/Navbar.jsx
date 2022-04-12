@@ -1,6 +1,6 @@
 import { Badge } from '@material-ui/core';
 import { AccountCircleOutlined, FavoriteBorder, ListOutlined, Search, ShoppingBasketOutlined } from '@material-ui/icons';
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import {mobile} from "../responsive"
@@ -51,6 +51,7 @@ margin-left: 25px;
 
 const Input = styled.input`
 border: none;
+height: 20px;
 ${mobile({width:"50px"})}
 `;
 
@@ -87,27 +88,36 @@ const Dropdown = styled.div`
     border-radius: 8px;
     padding: 0.05rem;
     `
-
-const Navbar = () => {
-    const quantity = useSelector(state=>state.cart.quantity)
-    const [open,setOpen] = useState(false);
-    const text =
-    <Dropdown>
+    
+    const handleFilter = (event) =>{
+        var searchWord = event.target.value;
+        console.log(searchWord);
+            global = searchWord
+        }
+        var global;
+        
+        const Navbar = () => {
+            const quantity = useSelector(state=>state.cart.quantity)
+            const [open,setOpen] = useState(false);
+            const text =
+            <Dropdown>
     <Link to="/login" style={{ textDecoration: 'none', color:'black' }}><DropdownItem>SIGN IN</DropdownItem></Link>
     <DropdownItem>REGISTER</DropdownItem>
     <DropdownItem>ORDER STATUS</DropdownItem>
     <DropdownItem>PAYMENTS</DropdownItem>
     </Dropdown>
 
-    return (
-        <Container>
+return (
+    <Container>
            <Wrapper>
+    
                <Left>
                    <Language>EN</Language>
                    <SearchContainer>
-                       <Input placeholder = "Search"/>
-                        <Search style={{color:"gray", fontSize:16, marginRight:2}}/>
+                       <Input type= 'text'  placeholder = "Search" onChange={handleFilter}/>
                    </SearchContainer>
+                        <Link to={`/products/${global}`} ><Search style={{color:"gray", fontSize:16, marginLeft:2}}/></Link>
+
                </Left>
                <Link to="/" style={{ textDecoration: 'none', color:'black' }}><Center><Logo>enet.</Logo></Center></Link>
                <Right>
