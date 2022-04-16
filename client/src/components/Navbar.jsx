@@ -1,10 +1,11 @@
 import { Badge } from '@material-ui/core';
-import { AccountCircleOutlined, FavoriteBorder, ListOutlined, Search, ShoppingBasketOutlined } from '@material-ui/icons';
-import React, { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { AccountCircleOutlined, BatteryUnknown, FavoriteBorder, ListOutlined, Search, ShoppingBasketOutlined } from '@material-ui/icons';
+import React, { useCallback, useMemo, useRef, useState } from 'react'
+import { Link, Navigate, NavLink } from 'react-router-dom';
 import styled from 'styled-components'
 import {mobile} from "../responsive"
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import { logout } from "../redux/apiCalls";
 
 const Container = styled.div`
      height: 50px;
@@ -87,24 +88,34 @@ const Dropdown = styled.div`
     align-items: center;
     border-radius: 8px;
     padding: 0.05rem;
+    cursor: pointer; 
     `
     
     const handleFilter = (event) =>{
         var searchWord = event.target.value;
+        global = searchWord;
         console.log(searchWord);
-            global = searchWord
+        console.log(global)
         }
+
+        
         var global;
         
         const Navbar = () => {
-            const quantity = useSelector(state=>state.cart.quantity)
-            const [open,setOpen] = useState(false);
-            const text =
-            <Dropdown>
+            const dispatch = useDispatch();
+            
+            const handleClick = (e)=>{
+                e.preventDefault()
+                logout(dispatch)
+              }
+        const quantity = useSelector(state=>state.cart.quantity)
+        const [open,setOpen] = useState(false);
+        const text =
+        <Dropdown>
     <Link to="/login" style={{ textDecoration: 'none', color:'black' }}><DropdownItem>SIGN IN</DropdownItem></Link>
     <DropdownItem>REGISTER</DropdownItem>
     <DropdownItem>ORDER STATUS</DropdownItem>
-    <DropdownItem>PAYMENTS</DropdownItem>
+    <DropdownItem onClick={handleClick} >LOGOUT</DropdownItem>
     </Dropdown>
 
 return (
@@ -116,8 +127,7 @@ return (
                    <SearchContainer>
                        <Input type= 'text'  placeholder = "Search" onChange={handleFilter}/>
                    </SearchContainer>
-                        <Link to={`/products/${global}`} ><Search style={{color:"gray", fontSize:16, marginLeft:2}}/></Link>
-
+                        <NavLink to={`/products/${global}`} ><Search style={{color:"gray", fontSize:16, marginLeft:2}}/></NavLink>
                </Left>
                <Link to="/" style={{ textDecoration: 'none', color:'black' }}><Center><Logo>enet.</Logo></Center></Link>
                <Right>
@@ -127,7 +137,6 @@ return (
                    <MenuItem><FavoriteBorder/></MenuItem>
                    <MenuItem><AccountCircleOutlined onClick={()=> setOpen(!open)}/></MenuItem>
                    {open && text}
-
                    <Link to="/cart" style={{ textDecoration: 'none', color:'black' }}>
                    <MenuItem>
                    <Badge badgeContent={quantity} color="primary">
