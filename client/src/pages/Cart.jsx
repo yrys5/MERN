@@ -1,5 +1,5 @@
-import { Add, Remove } from "@material-ui/icons";
-import { useSelector } from "react-redux";
+import { Add, DeleteOutlineOutlined, Remove } from "@material-ui/icons";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -9,6 +9,8 @@ import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import {userRequest} from "../requestMethods"
 import {useNavigate} from "react-router-dom"
+import { removeProduct } from "../redux/cartRedux";
+
 
 const KEY = process.env.REACT_APP_STRIPE;
 
@@ -162,6 +164,11 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector((state)=>state.cart);
   const [stripeToken,setStripeToken] =useState(null)
+ const dispatch = useDispatch();
+
+  const handleClick = ()=>{
+    dispatch(removeProduct());
+  }
   //start section to correct - invalid try element - working with catch 
   let history = useNavigate();
 
@@ -214,10 +221,11 @@ stripeToken && makeRequest()
                   <ProductId>
                     <b>ID:</b> {product._id}
                   </ProductId>
-                  <ProductColor color={product.color} />
+                  <ProductColor><b>Color:</b>{product.color}</ProductColor>
                   <ProductSize>
                     <b>Size:</b> {product.size}
                   </ProductSize>
+              <DeleteOutlineOutlined onClick={handleClick}></DeleteOutlineOutlined>
                 </Details>
               </ProductDetail>
               <PriceDetail>

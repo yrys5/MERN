@@ -1,7 +1,7 @@
 import { Badge } from '@material-ui/core';
-import { AccountCircleOutlined, BatteryUnknown, FavoriteBorder, ListOutlined, Search, ShoppingBasketOutlined } from '@material-ui/icons';
-import React, { useCallback, useMemo, useRef, useState } from 'react'
-import { Link, Navigate, NavLink } from 'react-router-dom';
+import { AccountCircleOutlined, FavoriteBorder, ListOutlined, Search, ShoppingBasketOutlined } from '@material-ui/icons';
+import React, { useState } from 'react'
+import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components'
 import {mobile} from "../responsive"
 import {useDispatch, useSelector} from "react-redux";
@@ -90,6 +90,15 @@ const Dropdown = styled.div`
     padding: 0.05rem;
     cursor: pointer; 
     `
+    const DropdownWelcome = styled.div`
+
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    padding: 0.05rem;
+    cursor: pointer;
+    color:teal;
+    `
     
     const handleFilter = (event) =>{
         var searchWord = event.target.value;
@@ -102,6 +111,8 @@ const Dropdown = styled.div`
         var global;
         
         const Navbar = () => {
+            const loggedUser = useSelector((state)=>state.user);
+
             const dispatch = useDispatch();
             
             const handleClick = (e)=>{
@@ -112,9 +123,9 @@ const Dropdown = styled.div`
         const [open,setOpen] = useState(false);
         const text =
         <Dropdown>
+    <DropdownWelcome>Welcome, {loggedUser.currentUser.username}</DropdownWelcome>
     <Link to="/login" style={{ textDecoration: 'none', color:'black' }}><DropdownItem>SIGN IN</DropdownItem></Link>
     <DropdownItem>REGISTER</DropdownItem>
-    <DropdownItem>ORDER STATUS</DropdownItem>
     <DropdownItem onClick={handleClick} >LOGOUT</DropdownItem>
     </Dropdown>
 
@@ -133,6 +144,7 @@ return (
                <Right>
                    {/*<Link to ="/register" style={{ textDecoration: 'none', color:'black' }}><MenuItem>REGISTER</MenuItem></Link>
                    <Link to ="/login" style={{ textDecoration: 'none', color:'black' }}><MenuItem>SIGN IN</MenuItem></Link>*/}
+                   
                    <MenuItem><ListOutlined/></MenuItem>
                    <MenuItem><FavoriteBorder/></MenuItem>
                    <MenuItem><AccountCircleOutlined onClick={()=> setOpen(!open)}/></MenuItem>

@@ -34,13 +34,6 @@ opacity:1;
 }
 `;
 
-const Circle = styled.div`
-width:200px;
-height:200px;
-border-radius:50%;
-background-color:white;
-position:absolute;
-`;
 const Image = styled.img`
 height:100%;
 z-index:2;
