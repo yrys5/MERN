@@ -15,7 +15,22 @@ const OrderSchema = new mongoose.Schema(
             },
         ],
         amount: { type: Number, required: true },
-        address: { type: Object, required: true },
+        address:  [
+            {
+                country: {
+                    type: String
+                },
+                city: {
+                    type: String,
+                },
+                line1: {
+                    type: String
+                },
+                postalCode: {
+                    type: String
+                },
+            },
+        ],
         status: { type: String, default:"pending"},
     },
     { timestamps: true }

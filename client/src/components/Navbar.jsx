@@ -146,7 +146,9 @@ return (
                    <Link to ="/login" style={{ textDecoration: 'none', color:'black' }}><MenuItem>SIGN IN</MenuItem></Link>*/}
                    
                    <MenuItem><ListOutlined/></MenuItem>
+                   <Link to="/favourite" style={{ textDecoration: 'none', color:'black' }}>
                    <MenuItem><FavoriteBorder/></MenuItem>
+                   </Link>
                    <MenuItem><AccountCircleOutlined onClick={()=> setOpen(!open)}/></MenuItem>
                    {open && text}
                    <Link to="/cart" style={{ textDecoration: 'none', color:'black' }}>

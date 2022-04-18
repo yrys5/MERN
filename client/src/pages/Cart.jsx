@@ -166,8 +166,8 @@ const Cart = () => {
   const [stripeToken,setStripeToken] =useState(null)
  const dispatch = useDispatch();
 
-  const handleClick = ()=>{
-    dispatch(removeProduct({}));
+  const handleClick = (_id)=>{
+    dispatch(removeProduct(_id,dispatch));
   }
   //start section to correct - invalid try element - working with catch 
   //solved -- wrong stripe key - not reading correctly
@@ -184,15 +184,16 @@ const Cart = () => {
       tokenId: stripeToken.id,
       amount: cart.total*100,
     });
-    history("/success",{
+    history("/success",{state:{
       stripeData: res.data,
       products: cart,
-    });
+    }});
   }catch{history("/")}
 }
 stripeToken && makeRequest()
-}, [stripeToken, cart.total, history])
+}, [stripeToken, cart.total,cart, history])
 //end of section to correct
+console.log(cart.total);
   return (
     <Container>
       <Announcement />
