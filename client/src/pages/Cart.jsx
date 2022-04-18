@@ -167,9 +167,10 @@ const Cart = () => {
  const dispatch = useDispatch();
 
   const handleClick = ()=>{
-    dispatch(removeProduct());
+    dispatch(removeProduct({}));
   }
   //start section to correct - invalid try element - working with catch 
+  //solved -- wrong stripe key - not reading correctly
   let history = useNavigate();
 
   const onToken = (token)=>{
@@ -181,7 +182,7 @@ const Cart = () => {
   try{
     const res = await userRequest.post("/checkout/payment",{
       tokenId: stripeToken.id,
-      amount: 500,
+      amount: cart.total*100,
     });
     history("/success",{
       stripeData: res.data,
@@ -225,7 +226,7 @@ stripeToken && makeRequest()
                   <ProductSize>
                     <b>Size:</b> {product.size}
                   </ProductSize>
-              <DeleteOutlineOutlined onClick={handleClick}></DeleteOutlineOutlined>
+              <DeleteOutlineOutlined style={{ cursor:'pointer' }} onClick={handleClick}></DeleteOutlineOutlined>
                 </Details>
               </ProductDetail>
               <PriceDetail>

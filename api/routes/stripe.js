@@ -1,8 +1,9 @@
 const router = require("express").Router();
 require('dotenv').config()
 // const stripe = require("stripe")(process.env.SECRET_STRIPE); //it work 2
-const KEY = process.env.SECRET_STRIPE; //not work2
-const stripe = require("stripe")(KEY); //not work2
+// mistake in name
+const KEY = process.env.SECRET_STRIPE; //it work
+const stripe = require("stripe")(KEY); //it work
 
 
 
