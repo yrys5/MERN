@@ -15,11 +15,17 @@ const cartSlice = createSlice({
         },
         removeProduct:(state,action) => {
             state.quantity -= 1;
-            state.products.splice(
-                state.products.findIndex((item) => item._id === action.payload),
-                1
-            );
-            state.total -= action.payload.price*action.payload.quantity;
+            state.products.map((product)=> {
+                if (product.title === action.payload.title) {
+                    const nextProducts = state.products.filter(
+                      (item) => item.title !== product.title
+                    );
+                    state.products = nextProducts;
+                  }
+                  //localStorage.setItem("cart", JSON.stringify(state.products));
+                  return state;
+            });
+            state.total -= action.payload.price;
         },
         removeAllProducts:(state) => {
             state.quantity = 0;

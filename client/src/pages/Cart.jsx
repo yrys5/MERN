@@ -164,10 +164,11 @@ const Button = styled.button`
 const Cart = () => {
   const cart = useSelector((state)=>state.cart);
   const [stripeToken,setStripeToken] =useState(null)
- const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const handleClick = (_id)=>{
-    dispatch(removeProduct(_id,dispatch));
+  const handleClick = (product)=>{
+    dispatch(removeProduct(product));
+    console.log(product)
   }
   //start section to correct - invalid try element - working with catch 
   //solved -- wrong stripe key - not reading correctly
@@ -193,7 +194,6 @@ const Cart = () => {
 stripeToken && makeRequest()
 }, [stripeToken, cart.total,cart, history])
 //end of section to correct
-console.log(cart.total);
   return (
     <Container>
       <Announcement />
@@ -211,8 +211,6 @@ console.log(cart.total);
         <Bottom>
           <Info>
             {cart.products.map((product)=>(
-            
-
             <Product>
               <ProductDetail>
                 <Image src={product.img} />
@@ -227,7 +225,7 @@ console.log(cart.total);
                   <ProductSize>
                     <b>Size:</b> {product.size}
                   </ProductSize>
-              <DeleteOutlineOutlined style={{ cursor:'pointer' }} onClick={handleClick}></DeleteOutlineOutlined>
+              <DeleteOutlineOutlined style={{ cursor:'pointer' }} onClick={()=>handleClick(product)}></DeleteOutlineOutlined>
                 </Details>
               </ProductDetail>
               <PriceDetail>
