@@ -11,7 +11,7 @@ const cartSlice = createSlice({
         addProduct:(state,action) => {
             state.quantity += 1;
             state.products.push(action.payload)
-            state.total += action.payload.price *action.payload.quantity;
+            state.total += action.payload.price * action.payload.quantity;
         },
         removeProduct:(state,action) => {
             state.quantity -= 1;
@@ -25,7 +25,7 @@ const cartSlice = createSlice({
                   //localStorage.setItem("cart", JSON.stringify(state.products));
                   return state;
             });
-            state.total -= action.payload.price;
+            state.total -= action.payload.price * action.payload.quantity;
         },
         removeAllProducts:(state) => {
             state.quantity = 0;
