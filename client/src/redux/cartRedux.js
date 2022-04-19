@@ -16,9 +16,9 @@ const cartSlice = createSlice({
         removeProduct:(state,action) => {
             state.quantity -= 1;
             state.products.map((product)=> {
-                if (product.title === action.payload.title) {
+                if (product._id === action.payload._id) {
                     const nextProducts = state.products.filter(
-                      (item) => item.title !== product.title
+                      (item) => item._id !== product._id
                     );
                     state.products = nextProducts;
                   }

@@ -168,7 +168,6 @@ const Cart = () => {
 
   const handleClick = (product)=>{
     dispatch(removeProduct(product));
-    console.log(product)
   }
   //start section to correct - invalid try element - working with catch 
   //solved -- wrong stripe key - not reading correctly
