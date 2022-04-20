@@ -116,6 +116,7 @@ const Dropdown = styled.div`
                 logout(dispatch)
               }
         const quantity = useSelector(state=>state.cart.quantity)
+        const quantityFavourite = useSelector(state=>state.favourite.quantity)
         const [open,setOpen] = useState(false);
         const text =
         <Dropdown>
@@ -152,7 +153,9 @@ return (
                    
                    <MenuItem><ListOutlined/></MenuItem>
                    <Link to="/favourite" style={{ textDecoration: 'none', color:'black' }}>
+                   <Badge badgeContent={quantityFavourite} color="primary">
                    <MenuItem><FavoriteBorder/></MenuItem>
+                   </Badge>
                    </Link>
                    <MenuItem><AccountCircleOutlined onClick={()=> setOpen(!open)}/></MenuItem>
                    {open && text}
