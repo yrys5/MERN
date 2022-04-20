@@ -72,7 +72,7 @@ const Dropdown = styled.div`
     position: absolute;
     top: 80px;
     width: 80px;
-    height: 100px;
+    height:fit-content;
     background-color: white;
     border: 3px;
     border-radius: 3px;
@@ -123,10 +123,19 @@ const Dropdown = styled.div`
         const [open,setOpen] = useState(false);
         const text =
         <Dropdown>
-    <DropdownWelcome>Welcome, {loggedUser.currentUser.username}</DropdownWelcome>
+    <DropdownWelcome> {loggedUser.currentUser.username != null ? (
+        "Welcome, " + loggedUser.currentUser.username
+        ) : (
     <Link to="/login" style={{ textDecoration: 'none', color:'black' }}><DropdownItem>SIGN IN</DropdownItem></Link>
-    <DropdownItem>REGISTER</DropdownItem>
-    <DropdownItem onClick={handleClick} >LOGOUT</DropdownItem>
+        )}
+        </DropdownWelcome>
+    <DropdownItem onClick={handleClick} >
+    {loggedUser.currentUser.username != null ? (
+        "LOGOUT"
+        ) : (
+            <DropdownItem>REGISTER</DropdownItem>          
+        )}
+    </DropdownItem>
     </Dropdown>
 
 return (
