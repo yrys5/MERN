@@ -100,18 +100,14 @@ const Dropdown = styled.div`
     color:teal;
     `
     
-    const handleFilter = (event) =>{
-        var searchWord = event.target.value;
-        global = searchWord;
-        console.log(searchWord);
-        console.log(global)
-        }
-
+    const Navbar = () => {
+        const loggedUser = useSelector((state)=>state.user);
+        const [search,setSearch] = useState("")
         
-        var global;
-        
-        const Navbar = () => {
-            const loggedUser = useSelector((state)=>state.user);
+        const handleFilter = (event) =>{
+            setSearch(event.target.value);
+            console.log(search)
+            }
 
             const dispatch = useDispatch();
             
@@ -147,7 +143,7 @@ return (
                    <SearchContainer>
                        <Input type= 'text'  placeholder = "Search" onChange={handleFilter}/>
                    </SearchContainer>
-                        <NavLink to={`/products/${global}`} ><Search style={{color:"gray", fontSize:16, marginLeft:2}}/></NavLink>
+                        <NavLink to={`/products/${search}`} ><Search style={{color:"gray", fontSize:16, marginLeft:2}}/></NavLink>
                </Left>
                <Link to="/" style={{ textDecoration: 'none', color:'black' }}><Center><Logo>enet.</Logo></Center></Link>
                <Right>
