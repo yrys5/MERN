@@ -1,4 +1,4 @@
-import { Add, FavoriteBorder, Remove } from "@material-ui/icons";
+import { Add, Favorite, FavoriteBorder, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -7,10 +7,10 @@ import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { publicRequest } from "../requestMethods";
+import { publicRequest, userRequest } from "../requestMethods";
 import { addProduct } from "../redux/cartRedux";
-import { useDispatch } from "react-redux";
-import { addProductFav } from "../redux/favouriteRedux";
+import { useDispatch, useSelector } from "react-redux";
+import { addProductFav, removeProductFav } from "../redux/favouriteRedux";
 
 const Container = styled.div``;
 
@@ -131,17 +131,34 @@ const Product = () => {
   const [quantity,setQuantity] = useState(1)
   const [color,setColor] = useState("");
   const [size,setSize] = useState("");
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const [isItOnFavList,setIsItOnFavList] = useState(null);
+  const [clickedFav,setClickedFav] = useState({})
   const dispatch = useDispatch();
 
   useEffect(()=>{
    const getProduct = async ()=>{
       try{
+
         const res = await publicRequest.get("/products/find/" + id)
         setProduct(res.data)
+
+        if (currentUser != null) {
+          const req = await userRequest.get("/favourites/find/" + currentUser._id + "/" + id )
+          console.log(req.data);
+          setIsItOnFavList(req.data)
+          if (req.data != null) {
+            setClickedFav(false)
+          }else{
+            setClickedFav(true)
+          }}
+
       }catch{}
    }
    getProduct()
-  },[id])
+  },[id,currentUser])
+
+  window.scroll(0, 0);
 
   const handleQuantity = (type) =>{
     if(type === "dec"){
@@ -154,9 +171,58 @@ const Product = () => {
     dispatch(addProduct({ ...product,quantity,color,size }));
   }
   const handleFavourite = ()=>{
-    dispatch(addProductFav({ ...product}));
+      const addFav = async () => {
+        try{   
+          //console.log("Favorite list doesn't exist, creating new one..")
+          const res = await userRequest.put("/favourites/"+ currentUser._id,
+          {
+                 userId: currentUser._id,
+                 products:{
+                   productId: product._id,
+                   img: product.img,
+                   title: product.title,
+                   price: product.price,
+                 }}   
+         )
+        }catch{
+          console.log("Error in adding to the favorite list")
+      }
+      dispatch(addProductFav({ ...product}));
+    }
+ addFav()
   }
 
+  const handleFavouriteRemove = ()=>{
+    const removeFav = async () => {
+      try{
+
+    const res = await userRequest.put("/favourites/remove/"+ currentUser._id,
+{
+      userId: currentUser._id,
+      products:{
+        productId: product._id,
+        img: product.img,
+        title: product.title,
+        price: product.price,
+      }}   
+)
+    }catch{console.log("Error in removing from the favorite list")}
+    dispatch(removeProductFav({ ...product}));
+  }
+removeFav()
+}
+
+
+const favouriteIcon = 
+<ButtonFavourite>
+   {clickedFav === false ? (
+            <Favorite onClick={handleFavouriteRemove}></Favorite>    
+        ) : (
+            <FavoriteBorder onClick={handleFavourite}></FavoriteBorder>
+        )}
+        </ButtonFavourite>
+        console.log(isItOnFavList)
+  
     return (
         <Container>
             <Navbar />
@@ -194,8 +260,9 @@ const Product = () => {
                             <Add onClick={()=>handleQuantity("inc")} />
                         </AmountContainer>
                         <Button onClick={handleClick}>ADD TO CART</Button>
-                        <ButtonFavourite>
-                            <FavoriteBorder onClick={handleFavourite}></FavoriteBorder>
+                        <ButtonFavourite onClick={()=> setClickedFav(!clickedFav)}>
+                          {console.log(clickedFav)}
+                          {favouriteIcon} 
                         </ButtonFavourite>
                     </AddContainer>
                 </InfoContainer>

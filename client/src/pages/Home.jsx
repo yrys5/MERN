@@ -7,6 +7,9 @@ import Newsletter from '../components/Newsletter'
 import Products from '../components/Products'
 import Slider from '../components/Slider'
 import styled from 'styled-components'
+import { useEffect } from 'react'
+import { userRequest } from '../requestMethods'
+import { useSelector } from 'react-redux'
 
 const Text = styled.div`
 margin-left:30px;
@@ -18,12 +21,25 @@ font-size:26px;
 
 const Text2= styled.div`
 margin-left:30px;
-font-weight:bold;
+font-weight:normal;
 font-size:13px;
   display: flex;
 `;
 
 const Home = () => {
+  const currentUser = useSelector((state) => state.user.currentUser);
+
+useEffect(()=>{
+  if (currentUser !=null) {
+  const createFavList= async ()=>{
+    await userRequest.post("/favourites",{
+      userId: currentUser._id,
+      products: []
+    })
+  }
+  createFavList()
+  }
+})
     return (
         <div>
             <Announcement/>

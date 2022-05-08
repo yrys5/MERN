@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import { mobile } from '../responsive';
 import { useLocation } from 'react-router';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 const Container = styled.div`
 
@@ -56,6 +57,10 @@ const ProductList = () => {
           [e.target.name]: value,
         })
     }
+
+    useEffect(()=>{
+        window.scroll(0, 0);
+    })
 
     return (
         <Container>

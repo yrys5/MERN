@@ -8,7 +8,7 @@ import { mobile } from "../responsive";
 import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import {userRequest} from "../requestMethods"
-import {useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import { removeProduct } from "../redux/cartRedux";
 
 
@@ -165,6 +165,10 @@ const Cart = () => {
   const cart = useSelector((state)=>state.cart);
   const [stripeToken,setStripeToken] =useState(null)
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const [sum,setSum] = useState(0);
+  const quantityFavourite = useSelector(state=>state.favourite.quantity)
+  var summary = 0;
 
   const handleClick = (product)=>{
     dispatch(removeProduct(product));
@@ -178,20 +182,44 @@ const Cart = () => {
   };
 
   useEffect(()=>{
+    cart.products.map((product)=>(
+      summary += product.price*product.quantity,
+      setSum(summary)
+      ))
+      
+      if (cart.products.length <1) {
+         setSum(0)
+         console.log(`sum value: ${sum}`)
+      }
+
   const makeRequest = async ()=>{
   try{
     const res = await userRequest.post("/checkout/payment",{
       tokenId: stripeToken.id,
-      amount: cart.total*100,
+      amount: sum*100,
     });
     history("/success",{state:{
       stripeData: res.data,
       products: cart,
     }});
+
+    const res2 = await userRequest.post("/orders", {
+      userId: currentUser._id,
+      products: cart.products.map((value) => ({
+        productId: value._id,
+        quantity: value.quantity,
+      })),
+      amount: sum,
+      address: {
+         country: res.data.billing_details.address.country,
+          city: res.data.billing_details.address.city,
+          line1: res.data.billing_details.address.line1,
+          postalCode: res.data.billing_details.address.postal_code,}
+    });
   }catch{history("/")}
 }
 stripeToken && makeRequest()
-}, [stripeToken, cart.total,cart, history])
+}, [stripeToken, cart.total,cart, history,currentUser])
 //end of section to correct
   return (
     <Container>
@@ -202,8 +230,8 @@ stripeToken && makeRequest()
         <Top>
           <TopButton>CONTINUE SHOPPING</TopButton>
           <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
-            <TopText>Your Wishlist (0)</TopText>
+            <TopText>Shopping Bag({cart.products.length})</TopText>
+            <Link to="/favourite" style={{ textDecoration: 'none', color:'black' }}><TopText>Your Wishlist ({quantityFavourite})</TopText></Link>
           </TopTexts>
           <TopButton type="filled">CHECKOUT NOW</TopButton>
         </Top>
@@ -212,6 +240,7 @@ stripeToken && makeRequest()
             {cart.products.map((product)=>(
             <Product>
               <ProductDetail>
+                
                 <Image src={product.img} />
                 <Details>
                   <ProductName>
@@ -243,7 +272,7 @@ stripeToken && makeRequest()
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>$ {sum}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -255,15 +284,15 @@ stripeToken && makeRequest()
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>$ {sum}</SummaryItemPrice>
             </SummaryItem>
             <StripeCheckout
             name="enet shop"
             image="https://media.istockphoto.com/vectors/online-payment-processing-with-credit-card-vector-id614448502?k=6&m=614448502&s=612x612&w=0&h=g4gbAzUeA0hyjcD6rVO808uHZSzbeB2l78HAUMk9Cpc="
             billingAddress
             shippingAddress
-            description={`Your total is$${cart.total}`}
-            amount={cart.total*100}
+            description={`Your total is$${sum}`}
+            amount={sum*100}
             token={onToken}
             stripeKey={KEY}
             >

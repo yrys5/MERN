@@ -71,11 +71,6 @@ display:flex;
 align-items: center;
 `;
 
-const Payment = styled.img`
-width:50%;
-`;
-
-
 const Footer = () => {
     return (
         <Container>
@@ -120,7 +115,6 @@ const Footer = () => {
                 <ContactItem><MailOutlined style={{marginRight:"10px"}}/>
                     contact@enet.com
                 </ContactItem>
-                <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
             </Right>
         </Container>
     )

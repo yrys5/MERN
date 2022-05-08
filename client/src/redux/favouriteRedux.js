@@ -10,6 +10,7 @@ const favouriteSlice = createSlice({
         addProductFav:(state,action) => {
             state.quantity += 1;
             state.products.push(action.payload);
+
         },
         removeProductFav:(state,action) => {
             state.quantity -= 1;
@@ -24,8 +25,12 @@ const favouriteSlice = createSlice({
                   return state;
             });
         },
+        updateAllFav:(state,action)=>{
+            state.quantity= action.payload.products.length;
+            state.products = action.payload.products;
+        }
     }
 })
 
-export const { addProductFav, removeProductFav } = favouriteSlice.actions;
+export const { addProductFav, removeProductFav, updateAllFav } = favouriteSlice.actions;
 export default favouriteSlice.reducer;

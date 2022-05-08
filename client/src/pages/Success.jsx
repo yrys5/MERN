@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
-import { userRequest } from "../requestMethods";
+import { useDispatch} from 'react-redux';
+import { Link} from 'react-router-dom';
 import styled from "styled-components"
+
 import { removeAllProducts } from "../redux/cartRedux";
 
 const Emoji = styled.div`
@@ -24,23 +23,31 @@ const Button11 = styled.div`
   touch-action: manipulation;
 `
 
-
-
 const Success = () => {
+  const dispatch = useDispatch();
+  /*
+  const [orderId, setOrderId] = useState(null);
   const location = useLocation();
   const data = location.state.stripeData;
   const cart = location.state.products;
   const currentUser = useSelector((state) => state.user.currentUser);
-  const [orderId, setOrderId] = useState(null);
-  const dispatch = useDispatch();
+  */
 
   const handleClick = ()=>{
     dispatch(removeAllProducts());
   }
-
+/*
   useEffect(() => {
+
+    window.onbeforeunload = function() {
+      return '';
+  
+    }
+
+
     const createOrder = async () => {
       try {
+        console.log(data)
         const res = await userRequest.post("/orders", {
           userId: currentUser._id,
           products: cart.products.map((value) => ({
@@ -59,7 +66,7 @@ const Success = () => {
     };
     data && createOrder();
   }, [cart, data, currentUser]);
-  
+*/
   return (
     <div
       style={{
@@ -71,10 +78,8 @@ const Success = () => {
       }}
     ><Emoji>🥳</Emoji>
        <p>Payment accept</p>
-       {orderId
-        ? `Order has been created successfully. Your order number is ${orderId}`
-        : `Successfull. Your order is being prepared...`}
-        {location.state.products.products._id}
+       { `Successfull. Your order is being prepared...`}
+        {/*location.state.products.products._id*/}
      <Link to="/" style={{ textDecoration: 'none' }}> <Button11 onClick={handleClick}>Go to Homepage </Button11></Link>
     </div>
   );

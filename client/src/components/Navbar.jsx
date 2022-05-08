@@ -78,6 +78,7 @@ const Dropdown = styled.div`
     border-radius: 3px;
     padding: 1rem;
     overflow: hidden;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     z-index : 1;
     `
     
@@ -103,6 +104,9 @@ const Dropdown = styled.div`
     const Navbar = () => {
         const loggedUser = useSelector((state)=>state.user);
         const [search,setSearch] = useState("")
+        const cartQuantity = useSelector((state)=>state.cart);
+        const quantityFavourite = useSelector(state=>state.favourite.quantity)
+        const [open,setOpen] = useState(false);
         
         const handleFilter = (event) =>{
             setSearch(event.target.value);
@@ -115,22 +119,20 @@ const Dropdown = styled.div`
                 e.preventDefault()
                 logout(dispatch)
               }
-        const quantity = useSelector(state=>state.cart.quantity)
-        const quantityFavourite = useSelector(state=>state.favourite.quantity)
-        const [open,setOpen] = useState(false);
+
         const text =
         <Dropdown>
-    <DropdownWelcome> {loggedUser.currentUser.username != null ? (
+    <DropdownWelcome> {loggedUser.currentUser != null ? (
         "Welcome, " + loggedUser.currentUser.username
         ) : (
     <Link to="/login" style={{ textDecoration: 'none', color:'black' }}><DropdownItem>SIGN IN</DropdownItem></Link>
         )}
         </DropdownWelcome>
     <DropdownItem onClick={handleClick} >
-    {loggedUser.currentUser.username != null ? (
+    {loggedUser.currentUser != null ? (
         "LOGOUT"
         ) : (
-            <DropdownItem>REGISTER</DropdownItem>          
+    <Link to="/register" style={{ textDecoration: 'none', color:'black' }}><DropdownItem>REGISTER</DropdownItem></Link>          
         )}
     </DropdownItem>
     </Dropdown>
@@ -161,7 +163,7 @@ return (
                    {open && text}
                    <Link to="/cart" style={{ textDecoration: 'none', color:'black' }}>
                    <MenuItem>
-                   <Badge badgeContent={quantity} color="primary">
+                   <Badge badgeContent={cartQuantity.products.length} color="primary">
                        <ShoppingBasketOutlined/>
                    </Badge>
                    </MenuItem>

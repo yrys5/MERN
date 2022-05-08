@@ -14,7 +14,7 @@ font-weight: 500;
 export const Announcement = () => {
     return (
         <Container>
-            Super Deal! Free sugar on orders over 50$
+            Super Deal! Free delivery on orders over 50$
         </Container>
     )
 }
