@@ -163,7 +163,7 @@ const Register = () => {
       await publicRequest.post("/auth/register",{
       username: values.username,
       email: values.email,
-      password: values.password
+      password: values.password,
     }
     )}catch{console.log("Error in creating user")}
   }

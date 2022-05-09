@@ -262,7 +262,10 @@ const favouriteIcon =
                         <Button onClick={handleClick}>ADD TO CART</Button>
                         <ButtonFavourite onClick={()=> setClickedFav(!clickedFav)}>
                           {console.log(clickedFav)}
-                          {favouriteIcon} 
+                          { currentUser != null ?
+                            favouriteIcon :
+                          null
+                          } 
                         </ButtonFavourite>
                     </AddContainer>
                 </InfoContainer>

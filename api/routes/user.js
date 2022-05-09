@@ -23,6 +23,7 @@ router.put("/:id", verifyTokenAndAuthorization, async (req,res)=>{
      res.status(200).json(updatedUser);
     }catch(err){
         res.status(500).json(err);
+        return
     }
 });
 
@@ -33,6 +34,7 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req,res)=>{
      res.status(200).json("User has been deleted")
     }catch(err){
         res.status(500).json(err)
+        return
     }
 })
 
@@ -44,6 +46,7 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req,res)=>{
      res.status(200).json(others);
     }catch(err){
         res.status(500).json(err)
+        return
     }
 })
 
@@ -55,6 +58,7 @@ router.get("/", verifyTokenAndAdmin, async (req,res)=>{
      res.status(200).json(users);
     }catch(err){
         res.status(500).json(err)
+        return
     }
 })
 
@@ -82,6 +86,7 @@ router.get("/stats", verifyTokenAndAdmin, async (req,res)=>{
     res.status(200).json(data)
    }catch(err){
        res(500).json(err);
+       return
    }
 });
 

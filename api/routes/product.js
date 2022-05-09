@@ -12,6 +12,7 @@ router.post("/", verifyTokenAndAdmin, async (req,res)=>{
       res.status(200).json(savedProduct)
     }catch(err){
         res.status(500).json(err)
+        return
     }
 });
  //UPDATE
@@ -27,6 +28,7 @@ router.put("/:id", verifyTokenAndAdmin, async (req,res)=>{
      res.status(200).json(updatedProduct);
     }catch(err){
         res.status(500).json(err);
+        return
     }
 });
 
@@ -37,6 +39,7 @@ router.delete("/:id", verifyTokenAndAdmin, async (req,res)=>{
      res.status(200).json("Product has been deleted")
     }catch(err){
         res.status(500).json(err)
+        return
     }
 })
 
@@ -47,6 +50,7 @@ router.get("/find/:id", async (req,res)=>{
      res.status(200).json(product);
     }catch(err){
         res.status(500).json(err)
+        return
     }
 })
 
@@ -72,6 +76,7 @@ router.get("/", async (req,res)=>{
      res.status(200).json(products);
     }catch(err){
         res.status(500).json(err)
+        return
     }
 })
 
