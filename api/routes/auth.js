@@ -4,16 +4,15 @@ const CryptoJS = require("crypto-js");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+require('dotenv').config()
 
 //MAIL SENDER DETALIS
-//user:eshop123forTest@gmail.com
-//pass:eshop123forTest!@
 
 var transporter = nodemailer.createTransport({
     service:'gmail',
     auth:{
         user:'eshop123forTest@gmail.com',
-        pass:'eshop123forTest!@',
+        pass: process.env.RRNFT,
     },
     tls:{
         rejectUnauthorized: false
@@ -306,7 +305,7 @@ router.post("/register", async (req, res) => {
             if (error) {
                 console.log(error)
             }else{
-                console.log("Verifycation email is sent to your account")
+                console.log("Verification email is sent to your account")
             }
         })
     } catch (err) {

@@ -1,9 +1,8 @@
-const { remove } = require("../models/Favourite");
-const Favourite = require("../models/Favourite");
+const { remove } = require("../models/Favorite");
+const Favourite = require("../models/Favorite");
 const { verifyToken, verifyTokenAndAuthorization } = require("./verifyToken");
 
 const router = require("express").Router();
-
 
 //CREATE
 router.post("/", verifyToken, async (req,res)=>{
@@ -12,7 +11,6 @@ router.post("/", verifyToken, async (req,res)=>{
     try{
       const savedFavourite = await newFavourite.save();
       res.status(200).json(savedFavourite)
-      return
     }catch(err){
         res.status(500).json(err)
         return
@@ -29,7 +27,6 @@ router.put("/:userId", verifyToken, async (req,res)=>{
      { new: true }
      );
      res.status(200).json(updatedFavourite);
-     return
     }catch(err){
         res.status(500).json(err);
         return
@@ -48,7 +45,6 @@ router.put("/:userId", verifyToken, async (req,res)=>{
 
      );
      res.status(200).json(updatedFavouriteDel);
-     return
     }catch(err){
         res.status(500).json(err);
         return
@@ -60,7 +56,6 @@ router.get("/find/:userId", verifyToken, async (req, res) => {
     try {
         const favourites = await Favourite.findOne({ userId: req.params.userId })
         res.status(200).json(favourites);
-        return
     } catch (err) {
         res.status(500).json(err)
         return
@@ -72,7 +67,6 @@ router.get("/find/:userId/:productId", async (req,res)=>{
     try{
      const product = await Favourite.findOne({ userId: req.params.userId, products: {$elemMatch:{productId: req.params.productId}}}) //wyszukiwanie po elemencie obiektu z tablicy
      res.status(200).json(product);
-     return
     }catch(err){
         res.status(500).json(err)
         return

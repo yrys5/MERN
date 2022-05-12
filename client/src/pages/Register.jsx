@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import FormInput from "../components/FormInput";
@@ -54,6 +54,11 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
 
+  &:disabled{
+    color:black;
+    cursor: not-allowed;
+  }
+
   &:hover{
     background-color: #00AEAE;
   }
@@ -83,10 +88,6 @@ const BackButton = styled.button`
   transition: all 0.4s;
 }
 `;
-
-
-//przy rejestracji dodac post pustej listy ulubionych albo dodac do schematu po prostu 
-
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -147,6 +148,13 @@ const Register = () => {
       required: true,
     },
   ];
+
+  useEffect(()=>{
+    const currentURL = window.location.href;
+    if (currentURL != "http://localhost:3000/register") {
+      window.location.assign('http://localhost:3000/register-success')
+    }
+  })
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -158,7 +166,7 @@ const Register = () => {
   };
   
   const handleUser = ()=>{
-  const makeRequest = async ()=>{
+    const makeRequest = async ()=>{
     try{
       await publicRequest.post("/auth/register",{
       username: values.username,
@@ -174,8 +182,8 @@ const Register = () => {
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
-<Form>
-        <form onSubmit={handleSubmit}>
+        <Form>
+         <form onSubmit={handleSubmit}>
           {inputs.map((input) => (
           <FormInput
             key={input.id}
@@ -183,16 +191,15 @@ const Register = () => {
             value={values[input.name]}
             onChange={onChange}
           />
-        ))}
+         ))}
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b><a href="https://policies.google.com/privacy?hl=en">PRIVACY POLICY</a></b>
           </Agreement>
           <Button onClick={handleUser}>CREATE</Button>
-         <Link to="/login"><ArrowBackIos style={{height:"14px",marginBottom:"-2px",color:"black"}}/><BackButton>BACK TO LOGIN</BackButton></Link>
-          {console.log(values.username)}
+          <Link to="/login"><ArrowBackIos style={{height:"14px",marginBottom:"-2px",color:"black"}}/><BackButton>BACK TO LOGIN</BackButton></Link>
           </form>
-          </Form>
+        </Form>
       </Wrapper>
     </Container>
   );

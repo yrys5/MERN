@@ -5,7 +5,8 @@ import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
 import Success from "./pages/Success";
-import Favourite from "./pages/Favourite";
+import Favorite from "./pages/Favorite";
+import RegisterSuccess from "./pages/RegisterSuccess";
 
 import {
   BrowserRouter as Router,
@@ -25,7 +26,8 @@ const App = () => {
         <Route path="/product/:id" element={<Product/>}></Route>
         <Route path="/cart" element={<Cart/>}></Route>
         <Route path="/success" element={<Success/>}></Route>
-        <Route path="/favourite" element={<Favourite/>}></Route>
+        <Route path="/register-success" element={<RegisterSuccess/>}></Route>
+        <Route path="/favourite" element={<Favorite/>}></Route>
         <Route path="/login" element={user ? <Navigate to="/"/> : <Login/>}></Route>
         <Route path="/register" element={user ? <Navigate to="/"/> : <Register/>}></Route>
       </Routes>
