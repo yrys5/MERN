@@ -3,6 +3,9 @@
 
 This website is a full-stack clothing shop with a client site and admin dashboard. That's my first quite big project and for now the best.
 
+## Demo
+[Link to demo](https://shop-first.herokuapp.com/)
+
 ## Preview
 Client
 
